@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const path = require("path");
 const { open } = require("sqlite");
@@ -162,9 +162,7 @@ app.put("/updatetodo", async (req, res) => {
   }
   try {
     await db.run(`UPDATE todos SET todo =? WHERE id =?`, [todo, id]);
-    const updatedTodo = await db.get(`SELECT * FROM todos WHERE id =?`, [
-      id,
-    ]);
+    const updatedTodo = await db.get(`SELECT * FROM todos WHERE id =?`, [id]);
     res.status(200).json(updatedTodo);
   } catch (e) {
     console.error(e);
